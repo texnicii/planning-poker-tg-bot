@@ -2,6 +2,8 @@ package infrastructure
 
 import (
 	"github.com/joho/godotenv"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 	"log"
 	"os"
 	"planning_pocker_bot/infrastructure/config"
@@ -20,6 +22,11 @@ func Bootstrap() {
 	appState.Add(config.BotClient, func() (any, error) {
 		tgBot, err := telegram.NewBotClient(TryEnv("TG_API_TOKEN", ""))
 		return &tgBot, err
+	}, 0)
+
+	appState.Add(config.DbClient, func() (any, error) {
+		db, err := gorm.Open(mysql.Open(TryEnv("DSN", "")), &gorm.Config{})
+		return &db, err
 	}, 0)
 
 	appState.Build()

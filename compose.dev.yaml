@@ -1,0 +1,14 @@
+services:
+  mysql:
+    image: percona:8.0
+    platform: linux/x86_64
+    restart: always
+    volumes:
+      - planing-poker-db:/var/lib/mysql
+    ports:
+      - "63306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+volumes:
+  planing-poker-db: ~
