@@ -2,6 +2,7 @@ package cmd
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"planning_pocker_bot/domain/service"
 	"planning_pocker_bot/infrastructure/telegram/messaging"
 )
 
@@ -28,6 +29,19 @@ func (cmd Start) Handle(update tgbotapi.Update) messaging.ResponseBag {
 	// TODO i18n
 	menu := Menu{
 		Title: "Привет!",
+	}
+
+	err := service.SignUp(service.SignUpDto{
+		ChatId:   update.Message.Chat.ID,
+		Nickname: update.Message.Chat.UserName,
+		AltName:  update.Message.Chat.FirstName,
+	})
+	if err != nil {
+		response := messaging.ResponseBag{}
+		response.AddChatResponse(update.Message.Chat.ID, "Упс... Что-то пошло не так 🙄")
+		// TODO - need logging
+
+		return response
 	}
 
 	return menu.Handle(update)

@@ -8,6 +8,7 @@ import (
 	"os"
 	"planning_pocker_bot/infrastructure/config"
 	"planning_pocker_bot/infrastructure/di"
+	"planning_pocker_bot/infrastructure/repository"
 	"planning_pocker_bot/infrastructure/telegram"
 )
 
@@ -26,8 +27,10 @@ func Bootstrap() {
 
 	appState.Add(config.DbClient, func() (any, error) {
 		db, err := gorm.Open(mysql.Open(TryEnv("DSN", "")), &gorm.Config{})
-		return &db, err
-	}, 0)
+		return db, err
+	}, 99)
+
+	repository.RegisterRepositoriesAsServices(&appState)
 
 	appState.Build()
 }
