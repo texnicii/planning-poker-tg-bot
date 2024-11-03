@@ -14,10 +14,24 @@ type SignUpDto struct {
 
 func SignUp(data SignUpDto) error {
 	repo := di.Get(config.UserRepository).(repository.UserRepository)
-	_, err := repo.Create(data.ChatId, data.Nickname, data.AltName)
-	if err != nil {
-		return err
+	user, getErr := repo.Get(data.ChatId)
+	if getErr != nil {
+		return getErr
+	}
+
+	if user != nil {
+		return nil
+	}
+
+	_, createErr := repo.Create(data.ChatId, data.Nickname, data.AltName)
+	if createErr != nil {
+		return createErr
 	}
 
 	return nil
+}
+
+func DeleteAccount(chatId int64) error {
+	repo := di.Get(config.UserRepository).(repository.UserRepository)
+	return repo.Delete(chatId)
 }

@@ -28,9 +28,10 @@ func NewHandlersContainer() HandlersContainer {
 			"/start": cmd.Start{},
 			"/menu":  cmd.Menu{},
 			"/echo":  cmd.Echo{},
-			//"/stop":  cmd.StopCommandHandler{},
+			"/stop":  cmd.Stop{},
 			// callbacks handles
-			"callback/some": callback.NewGame{},
+			"callback/new_team": callback.NewTeam{},
+			"callback/new_game": callback.NewGame{},
 			// messages handles
 			handle.DefaultMessageHandlerAlias: message.ChatMessageHandler{},
 		},

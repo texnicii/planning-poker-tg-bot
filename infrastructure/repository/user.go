@@ -15,3 +15,20 @@ func (u *UserRepository) Create(chatId int64, nickname string, altName string) (
 
 	return user, result.Error
 }
+
+func (u *UserRepository) Delete(chatId int64) error {
+	result := u.db.Delete(&entity.User{ChatId: chatId})
+
+	return result.Error
+}
+
+func (u *UserRepository) Get(chatId int64) (*entity.User, error) {
+	user := &entity.User{}
+	result := u.db.Find(user, chatId)
+
+	if user.ChatId != 0 {
+		return user, result.Error
+	}
+
+	return nil, result.Error
+}

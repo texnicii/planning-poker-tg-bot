@@ -33,6 +33,8 @@ func Bootstrap() {
 	repository.RegisterRepositoriesAsServices(&appState)
 
 	appState.Build()
+
+	repository.MigrateSchema()
 }
 
 func TryEnv(envVar string, envDefault string) string {
