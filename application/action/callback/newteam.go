@@ -13,23 +13,24 @@ const awaitingTeamNameKey = "team_name"
 type NewTeam struct{}
 
 func (n NewTeam) Handle(update tgbotapi.Update) messaging.ResponseBag {
-	if service.HasAwaiting(update.CallbackQuery.Message.Chat.ID, awaitingTeamNameKey) {
-
-	} else {
-		response := messaging.ResponseBag{}
-		response.AddChatResponse(update.CallbackQuery.Message.Chat.ID, "What is the name of your team?")
-		err := service.StartAwaiting(
-			update.CallbackQuery.Message.Chat.ID,
-			awaitingTeamNameKey,
-			"callback/new_team",
-			time.Now().Add(time.Minute*1),
-		)
-		if err != nil {
-			return cmd.MakeErrorResponse(update.CallbackQuery.Message.Chat.ID)
-		}
-
-		return response
+	response := messaging.ResponseBag{}
+	response.AddChatResponse(update.CallbackQuery.Message.Chat.ID, "What is the name of your team?")
+	err := service.StartAwaiting(
+		update.CallbackQuery.Message.Chat.ID,
+		awaitingTeamNameKey,
+		"callback/new_team",
+		time.Now().Add(time.Minute*1),
+	)
+	if err != nil {
+		return cmd.MakeErrorResponse(update.CallbackQuery.Message.Chat.ID)
 	}
 
-	return messaging.ResponseBag{}
+	return response
+}
+
+func (n NewTeam) PutTeamName(update tgbotapi.Update) messaging.ResponseBag {
+	// TODO - team model
+	response := messaging.ResponseBag{}
+
+	return response
 }

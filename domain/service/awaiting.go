@@ -24,3 +24,9 @@ func StartAwaiting(chatId int64, key entity.WaitKey, callback string, expired ti
 
 	return nil
 }
+
+func GetAwaiting(chatId int64) (*entity.Awaiting, error) {
+	repo := di.Get(config.AwaitingRepository).(repository.AwaitingRepository)
+
+	return repo.Get(chatId, "")
+}

@@ -27,6 +27,7 @@ func MigrateSchema() {
 	entities := []any{
 		&entity.User{},
 		&entity.Awaiting{},
+		&entity.Team{},
 	}
 
 	for _, entitySchema := range entities {

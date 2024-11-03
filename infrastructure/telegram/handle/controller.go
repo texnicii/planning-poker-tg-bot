@@ -45,16 +45,19 @@ func (conductor *Controller) HandleCommand(update tgbotapi.Update) messaging.Res
 	messageEntity := message.Entities[0]
 	commandName := message.Text[messageEntity.Offset:messageEntity.Length]
 	commandHandler := conductor.handlers.Find(commandName, false)
+
 	return commandHandler.Handle(update)
 }
 
 func (conductor *Controller) HandleMessage(update tgbotapi.Update) messaging.ResponseBag {
 	msgHandler := conductor.handlers.Find(DefaultMessageHandlerAlias, false)
+
 	return msgHandler.Handle(update)
 }
 
 func (conductor *Controller) HandleCallback(update tgbotapi.Update) messaging.ResponseBag {
 	callbackHandler := conductor.handlers.Find(update.CallbackQuery.Data, true)
+
 	return callbackHandler.Handle(update)
 }
 
