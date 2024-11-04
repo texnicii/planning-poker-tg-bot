@@ -1,6 +1,7 @@
 package service
 
 import (
+	"planning_pocker_bot/domain/entity"
 	"planning_pocker_bot/domain/repository"
 	"planning_pocker_bot/infrastructure/config"
 	"planning_pocker_bot/infrastructure/di"
@@ -23,7 +24,7 @@ func SignUp(data SignUpDto) error {
 		return nil
 	}
 
-	_, createErr := repo.Create(data.ChatId, data.Nickname, data.AltName)
+	_, createErr := repo.Create(entity.NewUser(data.ChatId, data.Nickname, data.AltName))
 	if createErr != nil {
 		return createErr
 	}

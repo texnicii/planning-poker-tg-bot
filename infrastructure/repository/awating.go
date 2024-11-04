@@ -11,13 +11,7 @@ type AwaitingRepository struct {
 	db *gorm.DB
 }
 
-func (a *AwaitingRepository) Create(
-	chatId int64,
-	waitKey entity.WaitKey,
-	CommandCallback string,
-	expired time.Time,
-) (*entity.Awaiting, error) {
-	awaiting := entity.NewAwaiting(chatId, waitKey, CommandCallback, expired)
+func (a *AwaitingRepository) Create(awaiting *entity.Awaiting) (*entity.Awaiting, error) {
 	result := a.db.Clauses(clause.OnConflict{
 		DoUpdates: clause.AssignmentColumns([]string{"expiry_date"}),
 	}).Create(awaiting)
@@ -25,15 +19,19 @@ func (a *AwaitingRepository) Create(
 	return awaiting, result.Error
 }
 
-func (a *AwaitingRepository) Get(chatId int64, waitKey entity.WaitKey) (*entity.Awaiting, error) {
+func (a *AwaitingRepository) Get(chatId int64, callbackKey entity.CallbackKey) (*entity.Awaiting, error) {
 	awaiting := &entity.Awaiting{}
 	var result *gorm.DB
-	if waitKey == "" {
+	if callbackKey == "" {
 		result = a.db.Where("chat_id = ? AND expiry_date >= ?", chatId, time.Now()).
 			Find(awaiting)
 	} else {
-		result = a.db.Where("chat_id = ? AND wait_key = ? AND expiry_date >= ?", chatId, string(waitKey), time.Now()).
-			Find(awaiting)
+		result = a.db.Where(
+			"chat_id = ? AND callback_action_key = ? AND expiry_date >= ?",
+			chatId,
+			string(callbackKey),
+			time.Now(),
+		).Find(awaiting)
 	}
 
 	if awaiting.ChatId == 0 {

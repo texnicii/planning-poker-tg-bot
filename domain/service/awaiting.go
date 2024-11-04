@@ -8,16 +8,9 @@ import (
 	"time"
 )
 
-func HasAwaiting(chatId int64, key entity.WaitKey) bool {
+func StartAwaiting(chatId int64, callbackKey entity.CallbackKey, expired time.Time) error {
 	repo := di.Get(config.AwaitingRepository).(repository.AwaitingRepository)
-	awaiting, _ := repo.Get(chatId, key)
-
-	return awaiting != nil
-}
-
-func StartAwaiting(chatId int64, key entity.WaitKey, callback string, expired time.Time) error {
-	repo := di.Get(config.AwaitingRepository).(repository.AwaitingRepository)
-	_, err := repo.Create(chatId, key, callback, expired)
+	_, err := repo.Create(entity.NewAwaiting(chatId, callbackKey, expired))
 	if err != nil {
 		return err
 	}

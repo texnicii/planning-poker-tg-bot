@@ -3,6 +3,7 @@ package message
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"planning_pocker_bot/application/action/callback"
+	"planning_pocker_bot/application/action/message/await"
 	"planning_pocker_bot/domain/service"
 	"planning_pocker_bot/infrastructure/telegram/messaging"
 )
@@ -15,9 +16,9 @@ func (handler ChatMessageHandler) Handle(update tgbotapi.Update) messaging.Respo
 
 	// handle awaiting
 	if awaiting != nil {
-		switch awaiting.CommandCallback {
-		case "callback/new_team":
-			return callback.NewTeam{}.PutTeamName(update)
+		switch awaiting.CallbackActionKey {
+		case callback.AwaitingTeamNameKey:
+			return await.Team{}.Handle(update)
 		}
 	}
 
