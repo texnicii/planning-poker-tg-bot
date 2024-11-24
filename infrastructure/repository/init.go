@@ -9,14 +9,8 @@ import (
 )
 
 func RegisterRepositoriesAsServices(app *di.Di) {
-	app.Add(config.UserRepository, func() (any, error) {
-		return &UserRepository{
-			db: di.Get(config.DbClient).(*gorm.DB),
-		}, nil
-	}, 1)
-
-	app.Add(config.AwaitingRepository, func() (any, error) {
-		return &AwaitingRepository{
+	app.Add(config.GroupRepository, func() (any, error) {
+		return &GroupRepository{
 			db: di.Get(config.DbClient).(*gorm.DB),
 		}, nil
 	}, 1)
@@ -25,10 +19,8 @@ func RegisterRepositoriesAsServices(app *di.Di) {
 func MigrateSchema() {
 	db := di.Get(config.DbClient).(*gorm.DB)
 	entities := []any{
-		&entity.User{},
-		&entity.Awaiting{},
-		&entity.Team{},
-		&entity.UserTeam{},
+		&entity.Group{},
+		&entity.Vote{},
 	}
 
 	for _, entitySchema := range entities {

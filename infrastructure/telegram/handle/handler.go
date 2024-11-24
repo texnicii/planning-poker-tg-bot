@@ -7,10 +7,11 @@ import (
 
 const DefaultMessageHandlerAlias = "msg/default"
 
-type HandlerContainer interface {
+type HandlersContainer interface {
 	Find(name string, isCallback bool) Handler
 }
 
 type Handler interface {
-	Handle(update tgbotapi.Update) messaging.ResponseBag
+	SetInput(action string, input any)
+	Handle(update tgbotapi.Update) *messaging.ResponseBag
 }

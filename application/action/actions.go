@@ -1,21 +1,19 @@
 package action
 
 import (
-	"planning_pocker_bot/application/action/callback"
+	"planning_pocker_bot/application/action/callback/planning_poker"
 	cmd "planning_pocker_bot/application/action/command"
 	"planning_pocker_bot/application/action/message"
 	"planning_pocker_bot/infrastructure/telegram/handle"
 )
 
-type HandlersContainer struct {
-	list map[string]handle.Handler
-}
+type HandlersContainer map[string]handle.Handler
 
 func (c HandlersContainer) Find(name string, isCallback bool) handle.Handler {
-	if command, ok := c.list[name]; ok {
-		return command
+	if handler, ok := c[name]; ok {
+		return handler
 	} else {
-		return cmd.UnknownCommandHandler{
+		return &cmd.UnknownCommandHandler{
 			IsCallback: isCallback,
 		}
 	}
@@ -23,17 +21,14 @@ func (c HandlersContainer) Find(name string, isCallback bool) handle.Handler {
 
 func NewHandlersContainer() HandlersContainer {
 	return HandlersContainer{
-		list: map[string]handle.Handler{
-			// commands handles
-			"/start": cmd.Start{},
-			"/menu":  cmd.Menu{},
-			"/echo":  cmd.Echo{},
-			"/stop":  cmd.Stop{},
-			// callbacks handles
-			"callback/new_team": callback.NewTeam{},
-			"callback/new_game": callback.NewGame{},
-			// messages handles
-			handle.DefaultMessageHandlerAlias: message.ChatMessageHandler{},
-		},
+		// commands handles
+		"/start": &cmd.Start{},
+		"/echo":  &cmd.Echo{},
+		"/menu":  &cmd.Menu{},
+		//"/stop":  cmd.Stop{},
+		// callbacks handles
+		"callback/poker/game": planning_poker.NewGame(),
+		// messages handles
+		handle.DefaultMessageHandlerAlias: &message.ChatMessageHandler{},
 	}
 }

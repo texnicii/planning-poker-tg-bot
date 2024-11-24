@@ -14,17 +14,17 @@ type SignUpDto struct {
 }
 
 func SignUp(data SignUpDto) error {
-	repo := di.Get(config.UserRepository).(repository.UserRepository)
-	user, getErr := repo.Get(data.ChatId)
+	repo := di.Get(config.GroupRepository).(repository.GroupRepository)
+	group, getErr := repo.Get(data.ChatId)
 	if getErr != nil {
 		return getErr
 	}
 
-	if user != nil {
+	if group != nil {
 		return nil
 	}
 
-	_, createErr := repo.Create(entity.NewUser(data.ChatId, data.Nickname, data.AltName))
+	_, createErr := repo.Create(&entity.Group{ChatId: data.ChatId})
 	if createErr != nil {
 		return createErr
 	}
@@ -33,6 +33,6 @@ func SignUp(data SignUpDto) error {
 }
 
 func DeleteAccount(chatId int64) error {
-	repo := di.Get(config.UserRepository).(repository.UserRepository)
+	repo := di.Get(config.GroupRepository).(repository.GroupRepository)
 	return repo.Delete(chatId)
 }
