@@ -2,72 +2,33 @@ package cmd
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"planning_pocker_bot/application/action/common/handler"
 	"planning_pocker_bot/infrastructure/telegram/messaging"
 )
 
 type UnknownCommandHandler struct {
+	handler.Model
 	IsCallback bool
 }
 
-func (cmd UnknownCommandHandler) Handle(update tgbotapi.Update) messaging.ResponseBag {
-	response := messaging.ResponseBag{}
+func (cmd UnknownCommandHandler) Handle(update tgbotapi.Update) *messaging.ResponseBag {
+	response := new(messaging.ResponseBag)
 	if cmd.IsCallback {
 		// TODO i18n
-		response.AddCallbackResponse(update.CallbackQuery.ID, "Упс... Что-то пошло не так 🙄")
+		response.AddCallbackResponse(update.CallbackQuery.ID, "Hm... something goes wrong 🙄")
 	} else {
-		response.AddChatResponse(update.Message.Chat.ID, "👀Неизвестная команда")
+		response.AddChatResponse(update.Message.Chat.ID, "👀Unknown command")
 	}
 
-	return response
-}
-
-type Start struct {
-}
-
-func (cmd Start) Handle(update tgbotapi.Update) messaging.ResponseBag {
-	// TODO i18n
-	menu := Menu{
-		Title: "Привет!",
-	}
-
-	return menu.Handle(update)
-}
-
-type Menu struct {
-	Title string
-}
-
-func (cmd Menu) Handle(update tgbotapi.Update) messaging.ResponseBag {
-	message := update.Message
-	var chatBtn tgbotapi.InlineKeyboardButton
-
-	chatBtn = tgbotapi.NewInlineKeyboardButtonData("🦄Новый чат", "new_chat")
-
-	var menuButtons = tgbotapi.NewInlineKeyboardMarkup(
-		tgbotapi.NewInlineKeyboardRow(
-			chatBtn,
-			tgbotapi.NewInlineKeyboardButtonData("Прочитать правила", "rules"),
-		),
-	)
-
-	response := messaging.ResponseBag{}
-	var title string
-	if cmd.Title == "" {
-		// TODO i18n
-		title = "Меню"
-	} else {
-		title = cmd.Title
-	}
-
-	response.AddChatResponseWithMarkup(message.Chat.ID, title, menuButtons)
 	return response
 }
 
 type Echo struct {
+	*handler.Model
 }
 
-func (cmd Echo) Handle(update tgbotapi.Update) messaging.ResponseBag {
-	response := messaging.ResponseBag{}
+func (cmd Echo) Handle(update tgbotapi.Update) *messaging.ResponseBag {
+	response := new(messaging.ResponseBag)
 	response.AddChatResponse(update.Message.Chat.ID, "✅")
 
 	return response
