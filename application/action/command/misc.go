@@ -15,7 +15,7 @@ func (cmd UnknownCommandHandler) Handle(update tgbotapi.Update) *messaging.Respo
 	response := new(messaging.ResponseBag)
 	if cmd.IsCallback {
 		// TODO i18n
-		response.AddCallbackResponse(update.CallbackQuery.ID, "Hm... something goes wrong 🙄")
+		response.AddCallbackResponse(update.CallbackQuery.ID, "Hm... Not supported yet 🙄")
 	} else {
 		response.AddChatResponse(update.Message.Chat.ID, "👀Unknown command")
 	}
