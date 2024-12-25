@@ -4,7 +4,7 @@ COPY . /build
 WORKDIR /build
 RUN go build -o ./planning-poker-bot .
 
-FROM alpine3.21 AS prod
+FROM alpine:3.21 AS prod
 WORKDIR /app
 COPY --from=build /build/planning-poker-bot .
 RUN chmod +x ./planning-poker-bot

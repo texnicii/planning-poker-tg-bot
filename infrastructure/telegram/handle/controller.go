@@ -1,8 +1,8 @@
 package handle
 
 import (
-	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"github.com/rs/zerolog/log"
 	"planning_pocker_bot/infrastructure/telegram"
 	"planning_pocker_bot/infrastructure/telegram/messaging"
 	"strings"
@@ -96,8 +96,7 @@ func (c *Controller) send(responseBag *messaging.ResponseBag) {
 			if msg.Text != "" || msg.ReplyMarkup != nil {
 				_, err := c.bot.Api().Send(msg)
 				if err != nil {
-					// TODO - need logging
-					fmt.Println(err)
+					log.Error().Str("context", "chat response").Msg(err.Error())
 				}
 			}
 		case messaging.CallbackResponse:
@@ -106,8 +105,7 @@ func (c *Controller) send(responseBag *messaging.ResponseBag) {
 				callback := tgbotapi.NewCallback(callbackResponse.QueryId(), callbackResponse.Text())
 				_, err := c.bot.Api().Request(callback)
 				if err != nil {
-					// TODO - need logging
-					fmt.Println(err)
+					log.Error().Str("context", callbackResponse.Text()).Msg(err.Error())
 				}
 			}
 		case messaging.EditMessageResponse:
@@ -123,8 +121,7 @@ func (c *Controller) send(responseBag *messaging.ResponseBag) {
 			if msg.Text != "" || msg.ReplyMarkup != nil {
 				_, err := c.bot.Api().Send(msg)
 				if err != nil {
-					// TODO - need logging
-					fmt.Println(err)
+					log.Error().Str("context", "edit").Msg(err.Error())
 				}
 			}
 		}

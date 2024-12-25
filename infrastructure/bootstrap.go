@@ -2,9 +2,9 @@ package infrastructure
 
 import (
 	"github.com/joho/godotenv"
+	"github.com/rs/zerolog/log"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"log"
 	"os"
 	"planning_pocker_bot/infrastructure/config"
 	"planning_pocker_bot/infrastructure/di"
@@ -15,7 +15,7 @@ import (
 func Bootstrap() {
 	errEnv := godotenv.Load()
 	if errEnv != nil {
-		log.Fatalf("env loading fail: %s", errEnv)
+		log.Warn().Msg(errEnv.Error())
 	}
 
 	// init services and add to global service container
@@ -41,7 +41,7 @@ func TryEnv(envVar string, envDefault string) string {
 	if val, ok := os.LookupEnv(envVar); ok {
 		return val
 	} else if envDefault == "" {
-		log.Fatalf("%s is not defined", envVar)
+		log.Fatal().Msgf("%s is not defined", envVar)
 	}
 
 	return envDefault
