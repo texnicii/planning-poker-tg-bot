@@ -13,14 +13,16 @@ type Menu struct {
 
 func (cmd Menu) Handle(update tgbotapi.Update) *messaging.ResponseBag {
 	message := update.Message
-	var chatBtn tgbotapi.InlineKeyboardButton
 
-	chatBtn = tgbotapi.NewInlineKeyboardButtonData("Planning Poker", "callback/poker/game")
+	pokerLink := "callback/poker/game"
+	if message.Chat.ID > 0 {
+		pokerLink = "callback/poker/not-supported"
+	}
 
 	var menuButtons = tgbotapi.NewInlineKeyboardMarkup(
 		tgbotapi.NewInlineKeyboardRow(
-			chatBtn,
-			tgbotapi.NewInlineKeyboardButtonData("FAQ", "faq"),
+			tgbotapi.NewInlineKeyboardButtonData("Planning Poker", pokerLink),
+			tgbotapi.NewInlineKeyboardButtonData("⚙️", "setting"),
 		),
 	)
 

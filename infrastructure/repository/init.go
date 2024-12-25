@@ -1,8 +1,8 @@
 package repository
 
 import (
+	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
-	"log"
 	"planning_pocker_bot/domain/entity"
 	"planning_pocker_bot/infrastructure/config"
 	"planning_pocker_bot/infrastructure/di"
@@ -26,7 +26,7 @@ func MigrateSchema() {
 	for _, entitySchema := range entities {
 		err := db.AutoMigrate(entitySchema)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal().Msg(err.Error())
 			return
 		}
 	}
