@@ -4,11 +4,12 @@ services:
     platform: linux/x86_64
     restart: always
     volumes:
-      - planing-poker-db:/var/lib/mysql
+      - planning-poker-db:/var/lib/mysql
     ports:
       - "63306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
 
 volumes:
-  planing-poker-db: ~
+  planning-poker-db: ~

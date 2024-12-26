@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	tgbotapi "github.com/OvyFlash/telegram-bot-api"
 	"planning_pocker_bot/application/action/common/handler"
 	"planning_pocker_bot/infrastructure/telegram/messaging"
 )

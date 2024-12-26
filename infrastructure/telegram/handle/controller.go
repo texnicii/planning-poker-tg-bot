@@ -1,7 +1,7 @@
 package handle
 
 import (
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	tgbotapi "github.com/OvyFlash/telegram-bot-api"
 	"github.com/rs/zerolog/log"
 	"planning_pocker_bot/infrastructure/telegram"
 	"planning_pocker_bot/infrastructure/telegram/messaging"
@@ -87,6 +87,7 @@ func (c *Controller) send(responseBag *messaging.ResponseBag) {
 		case messaging.ChatResponse:
 			chatResponse := response.(messaging.ChatResponse)
 			msg := tgbotapi.NewMessage(chatResponse.ChatId(), chatResponse.Text())
+			msg.MessageThreadID = chatResponse.ThreadId()
 			msg.ParseMode = tgbotapi.ModeHTML
 			markup := chatResponse.Markup()
 			if markup != nil {
