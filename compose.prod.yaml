@@ -1,12 +1,9 @@
 services:
   bot:
+    image: texnicii/planning-poker-bot:latest
     depends_on:
       - mysql
     restart: always
-    build:
-      dockerfile: build/Dockerfile
-      context: .
-      target: prod
     env_file:
       - .env.prod
 
@@ -15,9 +12,9 @@ services:
     platform: linux/x86_64
     restart: always
     volumes:
-      - planing-poker-db:/var/lib/mysql
+      - planning-poker-db:/var/lib/mysql
     env_file:
       - .env.prod
 
 volumes:
-  planing-poker-db: ~
+  planning-poker-db: ~
