@@ -13,7 +13,7 @@ chmod +x ./planning-poker-bot
 - Create Docker remote context to deploy
 ```shell
 // Create Docker remote context to deploy 
-docker context create NAME --docker "host=ssh://HOSTNAME"
+docker context create NAME --docker "host=ssh://user@host"
 
 // Up container at remooute host
 DOCKER_CONTEXT=NAME docker compose -f compose.prod.yaml up -d --remove-orphans --build
