@@ -4,18 +4,20 @@ type ResponseBag struct {
 	Responses []any
 }
 
-func (rb *ResponseBag) AddChatResponse(chatId int64, text string) {
+func (rb *ResponseBag) AddChatResponse(chatId int64, threadId int, text string) {
 	rb.Responses = append(rb.Responses, ChatResponse{
-		chatId: chatId,
-		text:   text,
+		chatId:   chatId,
+		threadId: threadId,
+		text:     text,
 	})
 }
 
-func (rb *ResponseBag) AddChatResponseWithMarkup(chatId int64, text string, markup any) {
+func (rb *ResponseBag) AddChatResponseWithMarkup(chatId int64, threadId int, text string, markup any) {
 	rb.Responses = append(rb.Responses, ChatResponse{
-		chatId: chatId,
-		text:   text,
-		markup: markup,
+		chatId:   chatId,
+		threadId: threadId,
+		text:     text,
+		markup:   markup,
 	})
 }
 
@@ -39,6 +41,7 @@ func (rb *ResponseBag) AddEditMessageResponseWithMarkup(chatId int64, messageId 
 
 type ChatResponse struct {
 	chatId       int64
+	threadId     int
 	text         string
 	markup       any
 	callbackText string
@@ -54,6 +57,10 @@ func (r ChatResponse) Markup() any {
 
 func (r ChatResponse) ChatId() int64 {
 	return r.chatId
+}
+
+func (r ChatResponse) ThreadId() int {
+	return r.threadId
 }
 
 type CallbackResponse struct {

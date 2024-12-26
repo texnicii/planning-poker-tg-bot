@@ -1,6 +1,6 @@
 package telegram
 
-import tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+import tgbotapi "github.com/OvyFlash/telegram-bot-api"
 
 type BotClient struct {
 	api    *tgbotapi.BotAPI

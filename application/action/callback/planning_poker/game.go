@@ -2,7 +2,7 @@ package planning_poker
 
 import (
 	"fmt"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	tgbotapi "github.com/OvyFlash/telegram-bot-api"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 	"math/rand"

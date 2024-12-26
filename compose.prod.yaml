@@ -1,6 +1,7 @@
 services:
   bot:
     image: texnicii/planning-poker-bot:latest
+    platform: linux/amd64
     depends_on:
       - mysql
     restart: always

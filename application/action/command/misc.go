@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	tgbotapi "github.com/OvyFlash/telegram-bot-api"
 	"planning_pocker_bot/application/action/common/handler"
 	"planning_pocker_bot/infrastructure/telegram/messaging"
 )
@@ -17,7 +17,7 @@ func (cmd UnknownCommandHandler) Handle(update tgbotapi.Update) *messaging.Respo
 		// TODO i18n
 		response.AddCallbackResponse(update.CallbackQuery.ID, "Hm... Not supported yet 🙄")
 	} else {
-		response.AddChatResponse(update.Message.Chat.ID, "👀Unknown command")
+		response.AddChatResponse(update.Message.Chat.ID, update.Message.MessageThreadID, "👀Unknown command")
 	}
 
 	return response
@@ -29,7 +29,7 @@ type Echo struct {
 
 func (cmd Echo) Handle(update tgbotapi.Update) *messaging.ResponseBag {
 	response := new(messaging.ResponseBag)
-	response.AddChatResponse(update.Message.Chat.ID, "✅")
+	response.AddChatResponse(update.Message.Chat.ID, update.Message.MessageThreadID, "✅")
 
 	return response
 }
