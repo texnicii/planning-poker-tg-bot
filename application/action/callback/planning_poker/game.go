@@ -51,6 +51,8 @@ func NewGame() *Game {
 		db:    di.Get(config.DbClient).(*gorm.DB),
 		title: "Planning Poker ♥️♦️♠️♣️",
 	}
+
+	// FIXME - translate
 }
 
 func (game Game) Handle(update tgbotapi.Update) *messaging.ResponseBag {

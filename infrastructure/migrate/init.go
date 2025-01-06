@@ -1,4 +1,4 @@
-package repository
+package migrate
 
 import (
 	"github.com/rs/zerolog/log"
@@ -8,15 +8,7 @@ import (
 	"planning_pocker_bot/infrastructure/di"
 )
 
-func RegisterRepositoriesAsServices(app *di.Di) {
-	app.Add(config.GroupRepository, func() (any, error) {
-		return &GroupRepository{
-			db: di.Get(config.DbClient).(*gorm.DB),
-		}, nil
-	}, 1)
-}
-
-func MigrateSchema() {
+func InitSchema() {
 	db := di.Get(config.DbClient).(*gorm.DB)
 	entities := []any{
 		&entity.Group{},

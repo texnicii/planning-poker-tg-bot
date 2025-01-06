@@ -1,6 +1,7 @@
 package action
 
 import (
+	"planning_pocker_bot/application/action/callback"
 	"planning_pocker_bot/application/action/callback/planning_poker"
 	cmd "planning_pocker_bot/application/action/command"
 	"planning_pocker_bot/application/action/message"
@@ -29,6 +30,7 @@ func NewHandlersContainer() HandlersContainer {
 		// callbacks handles
 		"callback/poker/game":          planning_poker.NewGame(),
 		"callback/poker/not-supported": &planning_poker.NotSupported{},
+		"callback/settings":            callback.NewSettings(),
 		// messages handles
 		handle.DefaultMessageHandlerAlias: &message.ChatMessageHandler{},
 	}
