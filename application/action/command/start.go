@@ -11,9 +11,8 @@ type Start struct {
 }
 
 func (cmd Start) Handle(update tgbotapi.Update) *messaging.ResponseBag {
-	menu := Menu{
-		Title: "Welcome",
-	}
+	menu := NewMenu()
+	menu.Title = "Welcome"
 
 	return menu.Handle(update)
 }

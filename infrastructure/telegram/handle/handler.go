@@ -8,7 +8,7 @@ import (
 const DefaultMessageHandlerAlias = "msg/default"
 
 type HandlersContainer interface {
-	Find(name string, isCallback bool) Handler
+	Find(name string) Handler
 }
 
 type Handler interface {

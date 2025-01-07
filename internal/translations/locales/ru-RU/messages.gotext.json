@@ -1,0 +1,25 @@
+{
+  "language": "ru-RU",
+  "messages": [
+    {
+      "id": "Planning Poker",
+      "message": "Planning Poker",
+      "translation": "Покер планирование"
+    },
+    {
+      "id": "Reveal",
+      "message": "Reveal",
+      "translation": "Открыть"
+    },
+    {
+      "id": "Next",
+      "message": "Next",
+      "translation": "Далее"
+    },
+    {
+      "id": "Menu",
+      "message": "Menu",
+      "translation": "Меню"
+    }
+  ]
+}
