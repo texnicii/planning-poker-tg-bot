@@ -8,12 +8,11 @@ import (
 
 type UnknownCommandHandler struct {
 	handler.Model
-	IsCallback bool
 }
 
 func (cmd UnknownCommandHandler) Handle(update tgbotapi.Update) *messaging.ResponseBag {
 	response := new(messaging.ResponseBag)
-	if cmd.IsCallback {
+	if update.CallbackQuery != nil {
 		// TODO i18n
 		response.AddCallbackResponse(update.CallbackQuery.ID, "Hm... Not supported yet 🙄")
 	} else {

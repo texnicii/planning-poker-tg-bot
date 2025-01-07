@@ -23,6 +23,9 @@ func NewSettings() *Settings {
 				tgbotapi.NewInlineKeyboardButtonData("🇷🇺", "callback/settings@lang:ru-RU"),
 				tgbotapi.NewInlineKeyboardButtonData("🇬🇧", "callback/settings@lang:en-GB"),
 			),
+			tgbotapi.NewInlineKeyboardRow(
+				tgbotapi.NewInlineKeyboardButtonData("⬅️", "callback/menu@replace"),
+			),
 		},
 		db: di.Get(config.DbClient).(*gorm.DB),
 	}

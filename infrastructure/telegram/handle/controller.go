@@ -44,13 +44,13 @@ func (c *Controller) Handle() {
 func (c *Controller) HandleCommand(update tgbotapi.Update) *messaging.ResponseBag {
 	message := update.Message
 	commandName := c.parseCommand(message.Text[message.Entities[0].Offset:message.Entities[0].Length])
-	commandHandler := c.handlers.Find(commandName, false)
+	commandHandler := c.handlers.Find(commandName)
 
 	return commandHandler.Handle(update)
 }
 
 func (c *Controller) HandleMessage(update tgbotapi.Update) *messaging.ResponseBag {
-	msgHandler := c.handlers.Find(DefaultMessageHandlerAlias, false)
+	msgHandler := c.handlers.Find(DefaultMessageHandlerAlias)
 
 	return msgHandler.Handle(update)
 }
@@ -69,9 +69,12 @@ func (c *Controller) HandleCallback(update tgbotapi.Update) *messaging.ResponseB
 		}
 	}
 
-	callbackHandler := c.handlers.Find(handlerName, true)
-
+	callbackHandler := c.handlers.Find(handlerName)
 	callbackHandler.SetInput(action, data)
+	defer func() {
+		// clear input
+		callbackHandler.SetInput("", "")
+	}()
 
 	return callbackHandler.Handle(update)
 }

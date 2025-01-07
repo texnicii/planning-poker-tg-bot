@@ -10,27 +10,27 @@ import (
 
 type HandlersContainer map[string]handle.Handler
 
-func (c HandlersContainer) Find(name string, isCallback bool) handle.Handler {
+func (c HandlersContainer) Find(name string) handle.Handler {
 	if handler, ok := c[name]; ok {
 		return handler
 	} else {
-		return &cmd.UnknownCommandHandler{
-			IsCallback: isCallback,
-		}
+		return &cmd.UnknownCommandHandler{}
 	}
 }
 
 func NewHandlersContainer() HandlersContainer {
+	menu := cmd.NewMenu()
+
 	return HandlersContainer{
 		// commands handles
-		"/start": &cmd.Start{},
-		"/echo":  &cmd.Echo{},
-		"/menu":  &cmd.Menu{},
-		"/stop":  &cmd.Stop{},
+		"/start":        &cmd.Start{},
+		"/echo":         &cmd.Echo{},
+		"/menu":         menu,
+		"callback/menu": menu,
+		"/stop":         &cmd.Stop{},
 		// callbacks handles
-		"callback/poker/game":          planning_poker.NewGame(),
-		"callback/poker/not-supported": &planning_poker.NotSupported{},
-		"callback/settings":            callback.NewSettings(),
+		"callback/poker/game": planning_poker.NewGame(),
+		"callback/settings":   callback.NewSettings(),
 		// messages handles
 		handle.DefaultMessageHandlerAlias: &message.ChatMessageHandler{},
 	}

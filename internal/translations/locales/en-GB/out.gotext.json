@@ -1,0 +1,33 @@
+{
+    "language": "en-GB",
+    "messages": [
+        {
+            "id": "Planning Poker",
+            "message": "Planning Poker",
+            "translation": "Planning Poker",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Reveal",
+            "message": "Reveal",
+            "translation": "Reveal",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Next",
+            "message": "Next",
+            "translation": "Next",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        },
+        {
+            "id": "Menu",
+            "message": "Menu",
+            "translation": "Menu",
+            "translatorComment": "Copied from source.",
+            "fuzzy": true
+        }
+    ]
+}
